@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>My Apps</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#f97316">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="My Apps">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0f0f0f;
+  color: #f0f0f0;
+  min-height: 100vh;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+.hero { text-align: center; padding: 40px 0 32px; }
+.hero-icon { font-size: 56px; margin-bottom: 12px; }
+.hero-title { font-size: 26px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+.hero-sub { font-size: 13px; color: #666; }
+
+.app-card {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s;
+}
+.app-card:active { border-color: #f97316; }
+.app-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: #2a1500;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; flex-shrink: 0;
+}
+.app-body { flex: 1; min-width: 0; }
+.app-name { font-size: 16px; font-weight: 700; color: #f0f0f0; }
+.app-desc { font-size: 12px; color: #666; margin-top: 3px; line-height: 1.4; }
+.app-status {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.06em; padding: 3px 9px; border-radius: 20px;
+  margin-top: 8px; display: inline-block;
+}
+.status-installed { background: #0a2a1a; color: #4ade80; }
+.status-available { background: #0a1a2e; color: #60a5fa; }
+.app-arrow { color: #444; font-size: 18px; flex-shrink: 0; }
+
+.empty-hint {
+  font-size: 12px; color: #555; text-align: center;
+  margin-top: 32px; line-height: 1.6; padding: 0 20px;
+}
+.section-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: #555; margin: 24px 0 10px;
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-icon">📱</div>
+  <div class="hero-title">My Apps</div>
+  <div class="hero-sub">Your personal app collection</div>
+</div>
+
+<div id="app-list"></div>
+
+<div class="empty-hint">Tap an app to open it, then use its Install button to add it to your home screen — no need to send yourself links again.</div>
+
+<script>
+// ─── APP REGISTRY ───────────────────────────────────────────────────────────
+// Add a new entry here whenever you build/deploy a new app.
+const APPS = [
+  {
+    name: 'Session Coach',
+    icon: '🏀',
+    desc: 'Basketball team training session planner',
+    url: 'https://eleanorlau.github.io/bball-coach/team_session_coach.html'
+  }
+];
+
+function render() {
+  const list = document.getElementById('app-list');
+  list.innerHTML = APPS.map(app => `
+    <a class="app-card" href="${app.url}">
+      <div class="app-icon">${app.icon}</div>
+      <div class="app-body">
+        <div class="app-name">${app.name}</div>
+        <div class="app-desc">${app.desc}</div>
+      </div>
+      <div class="app-arrow">›</div>
+    </a>
+  `).join('');
+}
+render();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js');
+  });
+}
+</script>
+</body>
+</html>
