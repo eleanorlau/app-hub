@@ -1,4 +1,4 @@
-const CACHE = 'app-hub-v1';
+const CACHE = 'app-hub-v2';
 const ASSETS = [
   './index.html',
   './manifest.json',
